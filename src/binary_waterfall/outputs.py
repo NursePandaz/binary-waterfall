@@ -329,7 +329,7 @@ class Renderer:
 
     def get_frame_count(self, fps):
         audio_duration = self.bw.get_audio_length() / 1000
-        frame_count = round(audio_duration * fps)
+        frame_count = max(1, math.ceil(audio_duration * fps))
 
         return frame_count
 
@@ -385,6 +385,7 @@ class Renderer:
                      ):
         # Get temporary directory
         temp_dir = tempfile.mkdtemp()
+        sequence_clip = audio_clip = video_clip = None
         try:
 
             # Make file names
@@ -425,7 +426,7 @@ class Renderer:
 
             # Make a list of the image filenames
             frames_list = list()
-            for frame_filename in os.listdir(image_dir):
+            for frame_filename in sorted(os.listdir(image_dir)):
                 full_frame_filename = os.path.join(image_dir, frame_filename)
                 frames_list.append(full_frame_filename)
 
@@ -445,7 +446,7 @@ class Renderer:
                 preset=preset,
                 threads=None,
                 logger=custom_logger,
-                temp_audiofile=None
+                temp_audiofile=os.path.join(temp_dir, "moviepy-audio.mp3")
             )
 
             if progress_dialog is not None:
@@ -459,6 +460,10 @@ class Renderer:
                 progress_dialog.setMaximum(100)
                 progress_dialog.setAutoReset(True)
 
+            video_clip.close()
+            audio_clip.close()
+            sequence_clip.close()
+
             # Move video to final location
             os.makedirs(filename_path, exist_ok=True)
             shutil.move(video_file, filename)
@@ -469,4 +474,7 @@ class Renderer:
             if progress_dialog is not None:
                 progress_dialog.setValue(100)
         finally:
+            for clip in (video_clip, audio_clip, sequence_clip):
+                if clip is not None:
+                    clip.close()
             shutil.rmtree(temp_dir, ignore_errors=True)

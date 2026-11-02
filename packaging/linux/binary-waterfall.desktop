@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Binary Waterfall
+Comment=Visualize raw data and recover original files from reversible video
+Exec=binary-waterfall
+Icon=binary-waterfall
+Terminal=false
+Categories=AudioVideo;Graphics;

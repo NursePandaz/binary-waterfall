@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "binary-waterfall"
-version = "3.7.0"
+version = "3.7.1"
 readme = "README_pypi.md"
 description = "A Raw Data Media Player"
 license= {file = "LICENSE"}
@@ -29,7 +29,8 @@ dependencies = [
     "PyQt5",
     "pydub",
     "audioop-lts; python_version >= '3.13'",
-    "moviepy",
+    "moviepy>=1.0.3,<2",
+    "numpy<3",
     "proglog"
 ]
 

@@ -1,0 +1,12 @@
+moviepy==1.0.3
+numpy==1.26.4; python_version < '3.13'
+numpy==2.2.6; python_version >= '3.13'
+Pillow==10.4.0
+pydub==0.25.1
+PyYAML==6.0.2
+proglog==0.1.10
+imageio==2.37.0
+imageio-ffmpeg==0.6.0
+decorator==4.4.2
+pyinstaller==6.16.0
+audioop-lts==0.2.2; python_version >= '3.13'
