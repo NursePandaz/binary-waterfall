@@ -26,7 +26,9 @@ public final class PreviewTest {
             Thread.sleep(500);
             android.graphics.Bitmap screenshot=instrumentation.getUiAutomation().takeScreenshot();
             assertNotNull(screenshot);
-            try(OutputStream out=new FileOutputStream(new File(activity.getExternalFilesDir(null),"preview.png"))){screenshot.compress(android.graphics.Bitmap.CompressFormat.PNG,100,out);}
+            File outputDir = new File(androidx.test.platform.app.InstrumentationRegistry.getArguments().getString("additionalTestOutputDir", activity.getExternalFilesDir(null).getAbsolutePath()));
+            assertTrue("Create screenshot output directory", outputDir.isDirectory() || outputDir.mkdirs());
+            try(OutputStream out=new FileOutputStream(new File(outputDir,"preview.png"))){screenshot.compress(android.graphics.Bitmap.CompressFormat.PNG,100,out);}
             screenshot.recycle();
             getInstrumentation().runOnMainSync(()->{play.performClick();assertEquals("Pause",play.getText().toString());play.performClick();assertEquals("Play",play.getText().toString());find(activity.getWindow().getDecorView(),"Playback settings").performClick();});
         } finally { getInstrumentation().runOnMainSync(activity::finish); }

@@ -40,8 +40,10 @@ jobs:
           profile: pixel_2
           disable-animations: true
           script: |
-            gradle -p android --no-daemon connectedDebugAndroidTest
-            adb pull /sdcard/Android/data/com.nursepandaz.binarywaterfall/files/preview.png android/preview.png
+            gradle -p android --no-daemon connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.additionalTestOutputDir=/sdcard/Android/media/com.nursepandaz.binarywaterfall/additional_test_output
+            preview=$(find android/app/build/outputs/connected_android_test_additional_output -name preview.png -print -quit)
+            test -n "$preview"
+            cp "$preview" android/preview.png
       - uses: actions/upload-artifact@v4
         if: always()
         with:
