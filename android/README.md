@@ -11,7 +11,7 @@ This preview does not yet include desktop video/audio export, custom color forma
 
 ## Build and test
 
-Use JDK 17, Gradle 8.9 and Android SDK 35, or import this folder in Android Studio:
+Use JDK 17, Gradle 9.9.1, Android Gradle Plugin 9.4.0 and Android SDK 35, or import this folder in Android Studio:
 
 ```sh
 gradle --no-daemon lintDebug assembleDebug assembleDebugAndroidTest
