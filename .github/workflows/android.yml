@@ -26,7 +26,7 @@ jobs:
         with:
           gradle-version: '9.9.1'
       - name: Build and inspect Android preview
-        run: gradle -p android --no-daemon lintDebug assembleDebug assembleDebugAndroidTest
+        run: gradle -p android --no-daemon --warning-mode=fail lintDebug assembleDebug assembleDebugAndroidTest
       - name: Enable emulator acceleration
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -40,7 +40,7 @@ jobs:
           profile: pixel_2
           disable-animations: true
           script: |
-            gradle -p android --no-daemon connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.additionalTestOutputDir=/sdcard/Android/media/com.nursepandaz.binarywaterfall/additional_test_output
+            gradle -p android --no-daemon --warning-mode=fail connectedDebugAndroidTest
             find android/app/build/outputs/connected_android_test_additional_output -name preview.png -exec cp {} android/preview.png \;
             test -s android/preview.png
       - uses: actions/upload-artifact@v7.0.2
