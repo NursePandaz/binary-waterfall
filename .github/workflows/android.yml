@@ -41,9 +41,8 @@ jobs:
           disable-animations: true
           script: |
             gradle -p android --no-daemon connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.additionalTestOutputDir=/sdcard/Android/media/com.nursepandaz.binarywaterfall/additional_test_output
-            preview=$(find android/app/build/outputs/connected_android_test_additional_output -name preview.png -print -quit)
-            test -n "$preview"
-            cp "$preview" android/preview.png
+            find android/app/build/outputs/connected_android_test_additional_output -name preview.png -exec cp {} android/preview.png \;
+            test -s android/preview.png
       - uses: actions/upload-artifact@v4
         if: always()
         with:
